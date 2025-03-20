@@ -63,15 +63,15 @@ const SendMessage = async (req, res) => {
       image: imageURL
     })
 
+    await message.save();
+
     const reciverSocketId = getReciverSocketId(receiverId);
 
     if(reciverSocketId){
       // console.log(message);
-      
       io.to(reciverSocketId).emit("newMessage", message);
     }
 
-    await message.save();
 
     return res.json(success(201, message))
 
